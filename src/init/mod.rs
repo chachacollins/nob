@@ -2,7 +2,7 @@ use std::{fs, process};
 
 pub fn init_prog() {
     create_proj();
-    println!("finished scafolding C project");
+    println!("Finished scafolding C project");
 }
 
 fn create_proj() {
@@ -34,11 +34,12 @@ fn create_proj() {
 }
 
 fn git_init() {
-    let _ = process::Command::new("git")
+    let _git = process::Command::new("git")
         .arg("init")
         .output()
         .map_err(|x| {
             eprint!("{}", x);
             process::exit(1);
         });
+    println!("Initialised git at root of the project");
 }
