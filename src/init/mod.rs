@@ -14,11 +14,18 @@ fn create_proj() {
         printf("hello world");
     }
     "#;
+    let bash_boiler_plate = r#"
+    gcc -o main main.c 
+    chmod +x main
+    ./main
+
+    "#;
+
     let _create_main_file = fs::write(main_path, boiler_plate).map_err(|x| {
         eprintln!("{}", x);
         process::exit(1);
     });
-    let _create_bash_file = fs::write(bash_path, boiler_plate).map_err(|x| {
+    let _create_bash_file = fs::write(bash_path, bash_boiler_plate).map_err(|x| {
         eprintln!("{}", x);
         process::exit(1);
     });
