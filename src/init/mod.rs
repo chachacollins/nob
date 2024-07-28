@@ -36,10 +36,8 @@ fn create_proj() {
     });
     let metadata = metadata(&bash_path).unwrap();
     let mut permissions = metadata.permissions();
-    println!("{:?}", permissions);
     permissions.set_mode(0o040755);
-    println!("{:?}", permissions);
-    fs::set_permissions(&bash_path, permissions).map_err(|x| {
+    let _ = fs::set_permissions(&bash_path, permissions).map_err(|x| {
         eprintln!("{}", x);
         process::exit(1);
     });

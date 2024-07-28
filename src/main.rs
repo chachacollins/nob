@@ -1,8 +1,8 @@
 use std::env;
 
 use init::init_prog;
-
 mod init;
+mod watcher;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -12,7 +12,7 @@ fn main() {
     match args[1].as_str() {
         "init" => init_prog(),
         "run" => println!("goodbye"),
-        "watch" => println!("goodbye"),
+        "watch" => watcher::file_watcher(),
         _ => {
             println!("unknown command");
             help();
