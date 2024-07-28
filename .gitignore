@@ -1,1 +1,5 @@
 /target
+./build.sh
+./main.c
+./main
+
