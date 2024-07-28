@@ -13,16 +13,16 @@ fn create_proj() {
     let main_path = "./main.c".to_string();
     let bash_path = "./build.sh".to_string();
     let boiler_plate = r#"
-    #include <stdio.h>
+#include <stdio.h>
 
-    int main(int argc, char** argv){
-        printf("hello world");
-    }
+int main(int argc, char** argv){
+    printf("hello world");
+}
     "#;
     let bash_boiler_plate = r#"
-    gcc -o main main.c 
-    chmod +x main
-    ./main
+gcc -o main main.c 
+chmod +x main
+./main
 
     "#;
 
