@@ -1,4 +1,8 @@
-use std::{fs, process};
+use std::{
+    fs::{self, metadata},
+    os::unix::fs::PermissionsExt,
+    process,
+};
 
 pub fn init_prog() {
     create_proj();
@@ -26,7 +30,16 @@ fn create_proj() {
         eprintln!("{}", x);
         process::exit(1);
     });
-    let _create_bash_file = fs::write(bash_path, bash_boiler_plate).map_err(|x| {
+    let _create_bash_file = fs::write(&bash_path, bash_boiler_plate).map_err(|x| {
+        eprintln!("{}", x);
+        process::exit(1);
+    });
+    let metadata = metadata(&bash_path).unwrap();
+    let mut permissions = metadata.permissions();
+    println!("{:?}", permissions);
+    permissions.set_mode(0o040755);
+    println!("{:?}", permissions);
+    fs::set_permissions(&bash_path, permissions).map_err(|x| {
         eprintln!("{}", x);
         process::exit(1);
     });
