@@ -1,7 +1,8 @@
 use std::{fs, process};
 
 pub fn init_prog() {
-    create_proj()
+    create_proj();
+    println!("finished scafolding C project");
 }
 
 fn create_proj() {
@@ -29,4 +30,15 @@ fn create_proj() {
         eprintln!("{}", x);
         process::exit(1);
     });
+    let _git_init = git_init();
+}
+
+fn git_init() {
+    let _ = process::Command::new("git")
+        .arg("init")
+        .output()
+        .map_err(|x| {
+            eprint!("{}", x);
+            process::exit(1);
+        });
 }
