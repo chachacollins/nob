@@ -1,5 +1,5 @@
 /target
-./build.sh
-./main.c
-./main
+/build.sh
+/main.c
+/main
 
