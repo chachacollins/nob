@@ -6,8 +6,9 @@ mod watcher;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
-    if args.len() == 0 {
+    if args.len() == 1 {
         help();
+        return;
     }
     match args[1].as_str() {
         "init" => init_prog(),
