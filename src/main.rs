@@ -2,6 +2,7 @@ use std::env;
 
 use init::init_prog;
 mod init;
+mod run;
 mod watcher;
 
 fn main() {
@@ -12,7 +13,7 @@ fn main() {
     }
     match args[1].as_str() {
         "init" => init_prog(),
-        "run" => println!("goodbye"),
+        "run" => run::run_code(),
         "watch" => watcher::file_watcher(&args[2]),
         _ => {
             println!("unknown command");

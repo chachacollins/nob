@@ -34,13 +34,8 @@ chmod +x main
         eprintln!("{}", x);
         process::exit(1);
     });
-    let metadata = metadata(&bash_path).unwrap();
-    let mut permissions = metadata.permissions();
-    permissions.set_mode(0o040755);
-    let _ = fs::set_permissions(&bash_path, permissions).map_err(|x| {
-        eprintln!("{}", x);
-        process::exit(1);
-    });
+
+    permission_exec(bash_path);
     let _git_init = git_init();
 }
 
@@ -53,4 +48,14 @@ fn git_init() {
             process::exit(1);
         });
     println!("Initialised git at root of the project");
+}
+
+fn permission_exec(bash_path: String) {
+    let metadata = metadata(&bash_path).unwrap();
+    let mut permissions = metadata.permissions();
+    permissions.set_mode(0o040755);
+    let _ = fs::set_permissions(&bash_path, permissions).map_err(|x| {
+        eprintln!("{}", x);
+        process::exit(1);
+    });
 }
