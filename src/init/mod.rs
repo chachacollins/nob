@@ -1,10 +1,17 @@
 use std::{
     fs::{self, metadata, read_dir},
+    io,
     os::unix::fs::PermissionsExt,
+    path::Path,
     process,
 };
 
 pub fn init_prog() {
+    let current_dir_path = Path::new(".");
+    let _ = check_file(current_dir_path).map_err(|x| {
+        eprintln!("{}", x);
+        process::exit(1);
+    });
     create_proj();
     println!("Finished scafolding C project");
 }
@@ -61,19 +68,13 @@ fn permission_exec(path: String) {
         process::exit(1);
     });
 }
-fn check_if_init() {
-    let current_dir_path = ".".to_string();
-    let dir_entries = read_dir(current_dir_path).map_err(|x| {
-        eprintln!("{}", x);
-        process::exit(1);
-    });
-    if let Ok(entries) = dir_entries {
-        for entry in entries {
-            let entry = entry.map_err(|x| {
-                eprintln!("{}", x);
-                process::exit(1);
-            });
-            // println!("{:?}", entry.path());
+fn check_file(dir: &Path) -> io::Result<()> {
+    if dir.is_dir() {
+        for entry in read_dir(dir)? {
+            let entry = entry?;
+            let path = entry.path();
+            println!("{:?}", path);
         }
     }
+    Ok(())
 }
