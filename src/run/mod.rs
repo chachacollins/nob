@@ -4,7 +4,7 @@ use std::env;
 
 pub fn run_code() {
     let current_dir = env::current_dir().expect("Failed to get current directory");
-    println!("Current directory: {:?}", current_dir);
+    println!("Compiled project at Current directory: {:?}", current_dir);
 
     let result = process::Command::new("zsh")
         .arg("-C")

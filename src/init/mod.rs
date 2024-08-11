@@ -1,5 +1,5 @@
 use std::{
-    fs::{self, metadata},
+    fs::{self, metadata, read_dir},
     os::unix::fs::PermissionsExt,
     process,
 };
@@ -16,17 +16,18 @@ fn create_proj() {
 #include <stdio.h>
 
 int main(int argc, char** argv){
-    printf("hello world");
+    printf("hello world\n");
+    return 0;
 }
     "#;
     let bash_boiler_plate = r#"
-gcc -o main main.c 
+gcc -Wall -o main main.c 
 chmod +x main
 ./main
 
     "#;
 
-    let _create_main_file = fs::write(main_path, boiler_plate).map_err(|x| {
+    let _create_main_file = fs::write(&main_path, boiler_plate).map_err(|x| {
         eprintln!("{}", x);
         process::exit(1);
     });
@@ -36,6 +37,7 @@ chmod +x main
     });
 
     permission_exec(bash_path);
+    permission_exec(main_path);
     let _git_init = git_init();
 }
 
@@ -50,12 +52,28 @@ fn git_init() {
     println!("Initialised git at root of the project");
 }
 
-fn permission_exec(bash_path: String) {
-    let metadata = metadata(&bash_path).unwrap();
+fn permission_exec(path: String) {
+    let metadata = metadata(&path).unwrap();
     let mut permissions = metadata.permissions();
     permissions.set_mode(0o040755);
-    let _ = fs::set_permissions(&bash_path, permissions).map_err(|x| {
+    let _ = fs::set_permissions(&path, permissions).map_err(|x| {
         eprintln!("{}", x);
         process::exit(1);
     });
+}
+fn check_if_init() {
+    let current_dir_path = ".".to_string();
+    let dir_entries = read_dir(current_dir_path).map_err(|x| {
+        eprintln!("{}", x);
+        process::exit(1);
+    });
+    if let Ok(entries) = dir_entries {
+        for entry in entries {
+            let entry = entry.map_err(|x| {
+                eprintln!("{}", x);
+                process::exit(1);
+            });
+            // println!("{:?}", entry.path());
+        }
+    }
 }
