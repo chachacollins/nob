@@ -14,7 +14,7 @@ pub fn file_watcher(args: &String) {
                 Ok(event) => match event.kind {
                     notify::EventKind::Create(_) => println!("file created"),
 
-                    notify::EventKind::Modify(_) => run_code(),
+                    notify::EventKind::Modify(_) => run_code().expect("could not run code"),
 
                     notify::EventKind::Remove(_) => println!("file removed"),
                     _ => (),

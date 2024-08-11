@@ -13,7 +13,7 @@ fn main() {
     }
     match args[1].as_str() {
         "init" => init_prog(),
-        "run" => run::run_code(),
+        "run" => run::run_code().expect("Could not run code"),
         "watch" => watcher::file_watcher(&args[2]),
         _ => {
             println!("unknown command");

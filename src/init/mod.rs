@@ -69,11 +69,15 @@ fn permission_exec(path: String) {
     });
 }
 fn check_file(dir: &Path) -> io::Result<()> {
+    let main_c = Path::new("./main.c");
     if dir.is_dir() {
         for entry in read_dir(dir)? {
             let entry = entry?;
             let path = entry.path();
-            println!("{:?}", path);
+            if path == main_c {
+                println!("Project already exists at the current directory");
+                process::exit(0);
+            }
         }
     }
     Ok(())
