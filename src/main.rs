@@ -14,7 +14,12 @@ fn main() {
     match args[1].as_str() {
         "init" => init_prog(),
         "run" => run::run_code().expect("Could not run code"),
-        "watch" => watcher::file_watcher(&args[2]),
+        "watch" => {
+            if args.len() < 3 {
+                println!("Too few arguements passed to watch");
+            }
+            watcher::file_watcher(&args[2]).expect("File watcher failed");
+        }
         _ => {
             println!("unknown command");
             help();
